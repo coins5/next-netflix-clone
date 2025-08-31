@@ -1,0 +1,68 @@
+[
+  {
+    "id": "tears-of-steel",
+    "title": "Tears of Steel",
+    "description": "Tears of Steel se creó gracias a la financiación colectiva de los usuarios de Blender, la herramienta de creación 3D de código abierto. El objetivo era mejorar y probar un proceso completo, abierto y gratuito, para efectos visuales cinematográficos, y crear una película de ciencia ficción cautivadora en Ámsterdam, Países Bajos. La película y toda la materia prima utilizada para su creación se han publicado bajo la licencia Creative Commons 3.0 Attribution. Visita el sitio web tearsofsteel.org para obtener más información o para adquirir la caja de 4 DVD con muchos extras. (CC) Blender Foundation - http://www.tearsofsteel.org",
+    "poster": "/posters/sample-local.jpg",
+    "categories": ["Destacados", "Demo"],
+    "sources": [
+      {
+        "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+        "type": "video/mp4",
+        "label": "720p"
+      }
+    ],
+    "subtitles": [
+      { "src": "/subs/TOS-en.srt", "lang": "en", "label": "English", "default": true },
+      { "src": "/subs/TOS-es.srt", "lang": "es", "label": "Español", "default": false },
+      { "src": "/subs/TOS-fr-Goofy.srt", "lang": "fr", "label": "Français", "default": false },
+      { "src": "/subs/TOS-de.srt", "lang": "de", "label": "Deutsch", "default": false },
+      { "src": "/subs/TOS-nl.srt", "lang": "nl", "label": "Nederlands", "default": false },
+      { "src": "/subs/TOS-it.srt", "lang": "it", "label": "Italiano", "default": false },
+      { "src": "/subs/TOS-ru.srt", "lang": "ru", "label": "Russian", "default": false },
+      { "src": "/subs/TOS-no.srt", "lang": "no", "label": "Norsk", "default": false }
+    ]
+  },
+  {
+    "id": "big-buck-bunny",
+    "title": "Big Buck Bunny",
+    "description": "Big Buck Bunny cuenta la historia de un conejo gigante con un corazón más grande que él. Cuando un día soleado, tres roedores lo acosan brutalmente, algo se rompe... ¡y el conejo deja de ser un conejo! Siguiendo la típica tradición de los dibujos animados, les prepara a los desagradables roedores una cómica venganza.\n\nLicencia Creative Commons Attribution\nhttp://www.bigbuckbunny.org",
+    "poster": "/posters/bbb.jpg",
+    "categories": ["Animación", "Destacados"],
+    "sources": [
+      {
+        "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+        "type": "video/mp4",
+        "label": "720p"
+      }
+    ]
+  },
+  {
+    "id": "sintel",
+    "title": "Sintel (External)",
+    "description": "Sintel es un cortometraje de producción independiente, iniciado por la Fundación Blender para mejorar y validar Blender, la suite de creación 3D de código abierto. Con una financiación inicial de miles de donaciones a través de la comunidad de internet, ha demostrado una vez más ser un modelo de desarrollo viable tanto para la tecnología 3D abierta como para el cine de animación independiente.\nEste cortometraje de 15 minutos fue realizado en el estudio del Blender Institute de Ámsterdam por un equipo internacional de artistas y desarrolladores. Además, se han alcanzado varios objetivos técnicos y creativos cruciales en línea por desarrolladores, artistas y equipos de todo el mundo.\nwww.sintel.org",
+    "poster": "/posters/sintel.jpg",
+    "categories": ["Acción", "Demo"],
+    "sources": [
+      {
+        "src": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+        "type": "video/mp4",
+        "label": "720p"
+      }
+    ]
+  },
+  {
+    "id": "sueno-elefante",
+    "title": "Sueño de elefante",
+    "description": "La primera película abierta de Blender de 2006",
+    "poster": "/posters/sintel.jpg",
+    "categories": ["Acción", "Demo"],
+    "sources": [
+      {
+        "src": "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        "type": "video/mp4",
+        "label": "720p"
+      }
+    ]
+  }
+]
