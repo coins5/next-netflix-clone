@@ -10,6 +10,9 @@ type Props = {
   autoPlay?: boolean;
   controls?: boolean;
   className?: string;
+  storageKey?: string; // unique key to persist position
+  resume?: boolean; // auto-resume from last position
+  autoFullscreen?: boolean; // try enter fullscreen on start
 };
 
 export default function VideoPlayer({
@@ -19,10 +22,62 @@ export default function VideoPlayer({
   autoPlay,
   controls = true,
   className,
+  storageKey,
+  resume = true,
+  autoFullscreen,
 }: Props) {
+  const videoId = useMemo(() => {
+    const fallback = sources?.[0]?.src || "";
+    return storageKey || fallback;
+  }, [storageKey, sources]);
+
+  const [videoEl, setVideoEl] = useState<HTMLVideoElement | null>(null);
   const [processedSubs, setProcessedSubs] = useState<SubtitleTrack[] | undefined>(
     undefined
   );
+
+  // Enable resume feature
+  useResume(videoEl, videoId, !!resume);
+
+  // Attempt to enter fullscreen automatically when playback starts
+  useEffect(() => {
+    if (!videoEl || !autoFullscreen) return;
+    let requested = false;
+
+    const tryFs = async () => {
+      if (requested) return;
+      requested = true;
+      try {
+        const anyVideo = videoEl as any;
+        if (document.fullscreenElement == null && anyVideo.requestFullscreen) {
+          await anyVideo.requestFullscreen();
+        } else if (anyVideo.webkitEnterFullscreen) {
+          anyVideo.webkitEnterFullscreen();
+        }
+      } catch {
+        // Some browsers require user gesture; ignore errors
+      }
+    };
+
+    const onPlay = () => {
+      tryFs();
+    };
+
+    videoEl.addEventListener("play", onPlay);
+
+    // If autoplay has already started, request ASAP
+    if (!videoEl.paused) {
+      const id = setTimeout(tryFs, 0);
+      return () => {
+        clearTimeout(id);
+        videoEl.removeEventListener("play", onPlay);
+      };
+    }
+
+    return () => {
+      videoEl.removeEventListener("play", onPlay);
+    };
+  }, [videoEl, autoFullscreen]);
 
   useEffect(() => {
     let cancelled = false;
@@ -97,6 +152,7 @@ export default function VideoPlayer({
 
   return (
     <video
+      ref={setVideoEl}
       className={className}
       controls={controls}
       preload="metadata"
@@ -121,4 +177,67 @@ export default function VideoPlayer({
       Tu navegador no soporta el elemento video.
     </video>
   );
+}
+
+// Persist and restore playback position
+// Stores JSON: { t: number, d?: number, u: number }
+function useResume(video: HTMLVideoElement | null, key: string, enable: boolean) {
+  useEffect(() => {
+    if (!video || !enable || !key) return;
+
+    const storageKey = `vp:pos:${key}`;
+    let lastSaved = 0;
+
+    const tryRestore = () => {
+      try {
+        const raw = localStorage.getItem(storageKey);
+        if (!raw) return;
+        const parsed = JSON.parse(raw) as { t: number; d?: number };
+        const t = parsed?.t ?? 0;
+        if (Number.isFinite(t) && t > 1 && video.duration && t < video.duration - 2) {
+          video.currentTime = t;
+        }
+      } catch {
+        // ignore
+      }
+    };
+
+    const save = () => {
+      if (!video.duration || video.duration < 20) return;
+      const t = video.currentTime;
+      if (!Number.isFinite(t)) return;
+      const now = Date.now();
+      if (now - lastSaved < 2000) return; // throttle ~2s
+      lastSaved = now;
+      if (t < 2 || t >= video.duration - 2) {
+        // near start or near end: clear
+        try { localStorage.removeItem(storageKey); } catch {}
+        return;
+      }
+      try {
+        localStorage.setItem(storageKey, JSON.stringify({ t, d: video.duration, u: now }));
+      } catch {
+        // ignore quota
+      }
+    };
+
+    const onLoaded = () => tryRestore();
+    const onTime = () => save();
+    const onPause = () => save();
+    const onEnded = () => {
+      try { localStorage.removeItem(storageKey); } catch {}
+    };
+
+    video.addEventListener("loadedmetadata", onLoaded);
+    video.addEventListener("timeupdate", onTime);
+    video.addEventListener("pause", onPause);
+    video.addEventListener("ended", onEnded);
+
+    return () => {
+      video.removeEventListener("loadedmetadata", onLoaded);
+      video.removeEventListener("timeupdate", onTime);
+      video.removeEventListener("pause", onPause);
+      video.removeEventListener("ended", onEnded);
+    };
+  }, [video, key, enable]);
 }

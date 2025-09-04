@@ -23,6 +23,10 @@ export default async function WatchPage({ params }: Props) {
           subtitles={movie.subtitles}
           poster={movie.poster}
           className="aspect-video w-full rounded-md bg-black"
+          storageKey={`movie:${movie.id}`}
+          resume
+          autoPlay
+          autoFullscreen
           controls
         />
       </div>
