@@ -1,20 +1,27 @@
 import Row from "@/components/Row";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
+import ContinueWatching from "@/components/ContinueWatching";
 import { getByCategory } from "@/lib/catalog";
 
 export default function Home() {
   const byCategory = getByCategory();
   const categories = Object.keys(byCategory);
 
-  // Pick a hero movie from the first category (if any)
-  const heroMovie = categories.length ? byCategory[categories[0]][0] : undefined;
+  // Pick a hero from "Destacados" if available; else fallback to the first category
+  const destacados = byCategory["Destacados"];
+  const heroMovie = destacados?.length
+    ? destacados[Math.floor(Math.random() * destacados.length)]
+    : categories.length
+    ? byCategory[categories[0]][0]
+    : undefined;
 
   return (
     <div className="min-h-screen bg-black text-white">
       <Header />
       <main className="mx-auto max-w-6xl px-6 py-6">
         {heroMovie ? <Hero movie={heroMovie} /> : null}
+        <ContinueWatching />
         {categories.length === 0 ? (
           <p className="text-white/70">
             No hay contenido aún. Sube tus videos a <code>/public/videos</code> y
