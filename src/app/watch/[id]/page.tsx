@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import VideoPlayer from "@/components/VideoPlayer";
 import { getMovieById } from "@/lib/catalog";
@@ -12,19 +13,36 @@ export default async function WatchPage({ params }: Props) {
   if (!movie) return notFound();
 
   return (
-    <div className="min-h-screen px-4 py-6 sm:px-8">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="mb-2 text-2xl font-semibold">{movie.title}</h1>
+    <div className="min-h-screen bg-gradient-to-b from-black via-black to-[#0a0a0a] text-white">
+      <div className="mx-auto max-w-6xl px-6 py-4">
+        <div className="mb-4 flex items-center justify-between">
+          <Link href="/" className="rounded-md bg-white/10 px-3 py-1 text-sm hover:bg-white/20">
+            ← Back
+          </Link>
+          <div className="text-sm text-white/60">Demo</div>
+        </div>
+
+        <div className="mb-4">
+          <h1 className="text-2xl font-semibold sm:text-3xl">{movie.title}</h1>
+        </div>
+
+        <div className="mb-6">
+          <VideoPlayer
+            sources={movie.sources}
+            subtitles={movie.subtitles}
+            poster={movie.poster}
+            className="aspect-video w-full rounded-lg bg-black shadow-2xl"
+            storageKey={`movie:${movie.id}`}
+            resume
+            autoPlay
+            autoFullscreen
+            controls
+          />
+        </div>
+
         {movie.description ? (
-          <p className="mb-4 text-white/70">{movie.description}</p>
+          <p className="max-w-3xl text-white/75">{movie.description}</p>
         ) : null}
-        <VideoPlayer
-          sources={movie.sources}
-          subtitles={movie.subtitles}
-          poster={movie.poster}
-          className="aspect-video w-full rounded-md bg-black"
-          controls
-        />
       </div>
     </div>
   );
