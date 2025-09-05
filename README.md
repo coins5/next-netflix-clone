@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Netflix‑style Demo with Next.js (App Router)
 
-## Getting Started
+Build a small, educational Netflix‑style app using Next.js 15 (App Router), Tailwind v4, and the native HTML5 `<video>` element. The repo includes a set of step‑by‑step lessons in English and Spanish.
 
-First, run the development server:
+### Highlights
+
+- App Router layout + pages under `src/app/`
+- Catalog driven by JSON (`src/data/movies.json`) with typed helpers
+- Native `<video>` player with multiple sources and subtitles
+- Resume playback (localStorage) and a “Continue Watching” row
+- Friendly course content in [My Blog](https://coins5.dev/posts/series/netflix-clone/en/01-introduction)
+
+### Project structure
+
+- `src/app/` — layout, home, and watch route
+- `src/components/` — `Hero`, `Row`, `MovieCard`, `VideoPlayer`, `ContinueWatching`
+- `src/lib/` — catalog types/helpers and subtitles utilities
+- `src/hooks/` — `useResume`, `useAutoFullscreen`, `useSubtitles`
+- `public/` — videos, posters, subtitles
+
+### Getting started
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Sample media
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Place small demo files under `public/videos/` and posters under `public/posters/`.
+- You can also reference remote MP4/WebM URLs directly in `src/data/movies.json`.
+- Subtitles: prefer `.vtt`; `.srt` is supported via client‑side conversion.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Scripts
 
-## Learn More
+- `npm run covers:svg` — generate SVG cover images for lessons into `public/covers/en/`
+- `npm run covers:jpg` — rasterize those SVGs to JPG using Sharp
 
-To learn more about Next.js, take a look at the following resources:
+### Notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Tailwind v4 is included via a single `@import "tailwindcss";` in `src/app/globals.css`.
+- If you switch posters to `next/image` with remote URLs, set `images.remotePatterns` in `next.config.ts`.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Credits and licensing
 
-## Deploy on Vercel
+- See `CREDITS.md` for sources and licenses (Blender Open Movies, subtitles, and posters).
+- When adding or replacing assets, append entries to `CREDITS.md` and include license texts in `LICENSES/` if required.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Deploy
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Deploy on Vercel with default settings. Host large media on a bucket/CDN and reference via HTTPS in `movies.json`.
