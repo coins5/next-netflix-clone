@@ -1,5 +1,7 @@
 Netflix‑style Demo with Next.js (App Router)
 
+![Netflix clone](screenshot1.png "Netflix clone")
+
 Build a small, educational Netflix‑style app using Next.js 15 (App Router), Tailwind v4, and the native HTML5 `<video>` element. The repo includes a set of step‑by‑step lessons in English and Spanish.
 
 ### Highlights
